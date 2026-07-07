@@ -486,6 +486,40 @@
           '게시 전: 내 문장으로 바꾼 곳이 한 군데 이상 있나요?'
         ],
         closing: null
+      },
+
+      matjip: {
+        id: 'matjip',
+        name: '맛집 후기',
+        group: 'blog',
+        intro: '아래 메모를 바탕으로 맛집 후기를 자연스럽게 써줘.',
+        fields: [
+          { key: 'placeInfo', label: '가게 이름·위치', type: 'text' },
+          { key: 'menuPrice', label: '먹은 메뉴와 가격', type: 'textarea' },
+          { key: 'tasteReview', label: '맛·양 솔직 평가', type: 'textarea' },
+          { key: 'atmosphere', label: '분위기·서비스', type: 'textarea' },
+          { key: 'episode', label: '그날의 에피소드', type: 'textarea' },
+          { key: 'revisit', label: '재방문 의사', type: 'select', options: ['또 가고 싶음', '근처 가면 갈 듯', '한 번이면 충분'] },
+          { key: 'diabeticComment', label: '당뇨인 시점 코멘트', type: 'textarea' },
+          { key: 'visitReason', label: '방문 계기', type: 'select', options: ['내돈내산', '지인 추천', '협찬·대가성'] },
+          { key: 'photoMarker', label: '사진 자리 표시', type: 'checkbox', output: false }
+        ],
+        conditions: [
+          '실제 방문 후기처럼 자연스럽게, 가게 홍보 문구처럼 마무리하지 않기',
+          '단점은 부드럽되 반드시 1개 이상 포함',
+          '분량 1,000자 내외, 소제목 없이 또는 2~3개',
+          { text: '글 서두에 대가성 표기 문구 포함', when: (inputs) => inputs.visitReason === '협찬·대가성' },
+          { text: '"내돈내산 방문 후기" 관점 유지', when: (inputs) => inputs.visitReason !== '협찬·대가성' },
+          { text: '혈당 관리 중인 사람의 개인적 선택 기준으로만 서술, 특정 메뉴가 혈당에 좋다/나쁘다 단정 금지', when: (inputs) => !!(inputs.diabeticComment && inputs.diabeticComment.trim()) },
+          { text: '사진 들어갈 자리에 "(사진: 장면 설명)" 마커 넣기', when: (inputs) => !!inputs.photoMarker }
+        ],
+        resultModes: null,
+        safetyBlockId: null,
+        profileScope: 'full',
+        emptyFieldPolicy: 'omit',
+        sharedConditions: true,
+        checklist: null,
+        closing: null
       }
     };
 
