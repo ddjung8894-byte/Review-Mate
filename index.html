@@ -520,6 +520,31 @@
         sharedConditions: true,
         checklist: null,
         closing: null
+      },
+
+      daily: {
+        id: 'daily',
+        name: '일상글',
+        group: 'blog',
+        intro: '아래 메모를 바탕으로 일상글을 자연스럽게 써줘.',
+        fields: [
+          { key: 'story', label: '오늘 쓰고 싶은 이야기', type: 'textarea', large: true },
+          { key: 'mood', label: '글의 분위기', type: 'select', options: ['담담하게', '유쾌하게', '진지하게', '알아서'] },
+          { key: 'mustInclude', label: '꼭 들어갔으면 하는 문장', type: 'text' },
+          { key: 'ending', label: '마무리 느낌', type: 'select', options: ['여운 남기기', '다짐으로', '열린 질문으로', '알아서'] }
+        ],
+        conditions: [
+          '정보글처럼 정리하지 말기, 소제목·번호 금지',
+          '교훈으로 억지 마무리하지 않기',
+          { text: '그 문장을 원문 그대로 자연스러운 위치에 배치', when: (inputs) => !!(inputs.mustInclude && inputs.mustInclude.trim()) }
+        ],
+        resultModes: null,
+        safetyBlockId: null,
+        profileScope: 'full',
+        emptyFieldPolicy: 'omit',
+        sharedConditions: true,
+        checklist: null,
+        closing: '이건 초안이야. 내가 직접 고쳐서 올릴 거니까 완성된 척하지 말고 자연스럽게 다듬어줘.'
       }
     };
 
@@ -714,6 +739,7 @@
         } else if (field.type === 'textarea') {
           input = document.createElement('textarea');
           if (field.placeholder) input.placeholder = field.placeholder;
+          if (field.large) input.style.minHeight = '160px';
         } else if (field.type === 'checkbox') {
           input = document.createElement('input');
           input.type = 'checkbox';
