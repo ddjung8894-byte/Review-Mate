@@ -341,7 +341,47 @@
         <div class="section-title">
           <h2>내 말투 설정</h2>
         </div>
-        <p class="hint">말투 프로필 기능은 다음 단계에서 추가됩니다.</p>
+        <p class="hint">여기서 설정한 말투는 모든 프리셋의 프롬프트에 자동으로 반영됩니다.</p>
+
+        <div class="field">
+          <label for="profileTone">존댓말/반말</label>
+          <select id="profileTone">
+            <option value="polite">존댓말</option>
+            <option value="casual">반말</option>
+            <option value="mixed">섞어서</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="profileEmoji">이모지</label>
+          <select id="profileEmoji">
+            <option value="none">안 씀</option>
+            <option value="some">가끔</option>
+            <option value="often">자주</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="profileStyle">문장 성격</label>
+          <select id="profileStyle">
+            <option value="plain">담백하게</option>
+            <option value="chatty">수다스럽게</option>
+            <option value="humor">유머 섞어서</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="profilePersona">내 소개 한 줄</label>
+          <input id="profilePersona" placeholder="예: 40대, 당뇨 관리 중인 직장인" />
+        </div>
+
+        <div class="field">
+          <label for="profileAlwaysRules">항상 지킬 것</label>
+          <input id="profileAlwaysRules" placeholder="예: 특정 브랜드 언급 자제" />
+        </div>
+
+        <p class="status" id="profileStatus"></p>
+        <button class="primary-button" id="saveProfile" type="button">저장</button>
       </div>
     </section>
 
@@ -434,6 +474,10 @@
     const GROUP_LABELS = { blog: '블로그 글쓰기', review: '쇼핑 리뷰' };
     const GROUP_ORDER = ['blog', 'review'];
 
+    const TONE_LABELS = { polite: '존댓말', casual: '반말', mixed: '존댓말과 반말을 섞어서' };
+    const EMOJI_LABELS = { none: '이모지는 안 씀', some: '이모지는 가끔', often: '이모지는 자주' };
+    const STYLE_LABELS = { plain: '담백한 문체', chatty: '수다스러운 문체', humor: '유머 섞인 문체' };
+
     // ---- 공통 유틸 ---------------------------------------------------------
     function safeValue(value, fallback = '미입력') {
       const trimmed = (value || '').trim();
@@ -451,11 +495,31 @@
       }
     }
 
+    function saveProfile(profile) {
+      try {
+        const payload = Object.assign({}, profile, { updatedAt: new Date().toISOString() });
+        localStorage.setItem('rm_profile', JSON.stringify(payload));
+        localStorage.setItem('rm_schema_version', '1');
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
     // ---- 프롬프트 조립기 ----------------------------------------------------
     function renderProfileBlock(preset, profile) {
       if (!profile) return null;
-      // 말투 프로필 화면(2단계)에서 실제 내용을 채웁니다.
-      return null;
+      const parts = [];
+      if (preset.profileScope === 'full' && profile.persona && profile.persona.trim()) {
+        parts.push(profile.persona.trim() + '.');
+      }
+      const descriptors = [TONE_LABELS[profile.tone], EMOJI_LABELS[profile.emoji], STYLE_LABELS[profile.style]].filter(Boolean);
+      if (descriptors.length) parts.push(descriptors.join(', ') + '.');
+      if (profile.alwaysRules && profile.alwaysRules.trim()) {
+        parts.push('항상 지킬 것: ' + profile.alwaysRules.trim());
+      }
+      if (!parts.length) return null;
+      return '글쓴이 정보: ' + parts.join(' ');
     }
 
     function buildConditionsBlock(preset, inputs) {
@@ -667,9 +731,41 @@
       }
     }
 
+    // ---- 말투 프로필 화면 ---------------------------------------------------
+    function populateProfileForm() {
+      const profile = loadProfile();
+      document.getElementById('profileTone').value = (profile && profile.tone) || 'polite';
+      document.getElementById('profileEmoji').value = (profile && profile.emoji) || 'none';
+      document.getElementById('profileStyle').value = (profile && profile.style) || 'plain';
+      document.getElementById('profilePersona').value = (profile && profile.persona) || '';
+      document.getElementById('profileAlwaysRules').value = (profile && profile.alwaysRules) || '';
+      const statusEl = document.getElementById('profileStatus');
+      statusEl.textContent = '';
+      statusEl.classList.remove('show');
+    }
+
     // ---- 이벤트 바인딩 -------------------------------------------------------
-    document.getElementById('openProfile').addEventListener('click', () => showScreen('profile'));
+    document.getElementById('openProfile').addEventListener('click', () => {
+      populateProfileForm();
+      showScreen('profile');
+    });
     document.getElementById('profileBack').addEventListener('click', () => showScreen('home'));
+    document.getElementById('saveProfile').addEventListener('click', () => {
+      const profile = {
+        tone: document.getElementById('profileTone').value,
+        emoji: document.getElementById('profileEmoji').value,
+        style: document.getElementById('profileStyle').value,
+        persona: document.getElementById('profilePersona').value,
+        alwaysRules: document.getElementById('profileAlwaysRules').value
+      };
+      if (saveProfile(profile)) {
+        showScreen('home');
+      } else {
+        const statusEl = document.getElementById('profileStatus');
+        statusEl.textContent = '프로필 저장이 안 되는 브라우저입니다.';
+        statusEl.classList.add('show');
+      }
+    });
     document.getElementById('formBack').addEventListener('click', () => showScreen('home'));
     document.getElementById('editInput').addEventListener('click', () => showScreen('form'));
     document.getElementById('goHome').addEventListener('click', () => showScreen('home'));
