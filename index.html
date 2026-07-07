@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#162544" />
+  <meta name="theme-color" content="#f2f4f6" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Review Mate" />
   <link rel="manifest" href="manifest.json" />
@@ -12,24 +12,28 @@
   <title>Review Mate</title>
   <style>
     :root {
-      --navy: #162544;
-      --navy-soft: #243858;
-      --ink: #152033;
-      --muted: #718096;
-      --line: #e8edf5;
-      --paper: #ffffff;
-      --soft: #f6f8fb;
-      --accent: #eef4ff;
-      --success: #12715b;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #f2f4f6;
+      --surface: #ffffff;
+      --fill: #f2f4f6;
+      --text: #191f28;
+      --text-sub: #4e5968;
+      --text-weak: #8b95a1;
+      --line: #e5e8eb;
+      --primary: #3182f6;
+      --primary-weak: #e8f3ff;
+      --danger-weak: #fff3e0;
+      --danger-text: #b25c00;
+      --radius: 14px;
+      --radius-sm: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
-      color: var(--ink);
+      background: var(--bg);
+      color: var(--text);
     }
 
     button, input, textarea, select { font: inherit; }
@@ -41,49 +45,47 @@
     }
 
     .hero {
-      padding: 1.5rem 0 1rem;
+      padding: 0.9rem 0 0.7rem;
     }
 
     .logo-row {
       display: flex;
       align-items: center;
-      gap: 0.72rem;
-      margin-bottom: 0.82rem;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .logo-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: var(--navy);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--primary);
       color: #ffffff;
       display: grid;
       place-items: center;
-      font-weight: 800;
-      box-shadow: 0 14px 28px rgba(22, 37, 68, 0.18);
+      font-weight: 700;
+      font-size: 0.85rem;
     }
 
     .brand-name {
-      font-size: 1.55rem;
+      font-size: 1.25rem;
       line-height: 1.1;
-      font-weight: 820;
-      color: var(--navy);
+      font-weight: 700;
+      color: var(--text);
     }
 
     .hero-copy {
       margin: 0;
-      color: #526073;
-      font-size: 1.02rem;
-      line-height: 1.62;
+      color: var(--text-weak);
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .mobile-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 1.18rem;
-      box-shadow: 0 18px 46px rgba(22, 37, 68, 0.08);
-      margin-bottom: 1rem;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      margin-bottom: 0.9rem;
     }
 
     .section-title {
@@ -91,50 +93,51 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.8rem;
     }
 
     .section-title h2 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1rem;
+      font-weight: 700;
       line-height: 1.3;
-      color: var(--navy);
+      color: var(--text);
     }
 
     .section-badge {
-      color: var(--navy);
-      background: var(--accent);
+      color: var(--primary);
+      background: var(--primary-weak);
       border-radius: 999px;
-      padding: 0.28rem 0.66rem;
-      font-size: 0.78rem;
+      padding: 0.24rem 0.6rem;
+      font-size: 0.72rem;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .hint {
-      margin: -0.2rem 0 1rem;
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.55;
+      margin: -0.15rem 0 0.9rem;
+      color: var(--text-weak);
+      font-size: 0.8rem;
+      line-height: 1.5;
     }
 
-    .field { margin-bottom: 0.92rem; }
+    .field { margin-bottom: 0.9rem; }
 
     label {
       display: block;
-      color: var(--navy);
-      font-weight: 760;
-      font-size: 0.92rem;
-      margin-bottom: 0.42rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
     }
 
     input, textarea, select {
       width: 100%;
-      border: 1px solid #dde5f0;
-      border-radius: 18px;
-      background: #fbfcff;
-      color: var(--ink);
-      font-size: 0.98rem;
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-sm);
+      background: var(--fill);
+      color: var(--text);
+      font-size: 0.96rem;
       padding: 0.78rem 0.9rem;
       outline: none;
     }
@@ -146,38 +149,38 @@
     }
 
     input:focus, textarea:focus, select:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(22, 37, 68, 0.08);
+      background: var(--surface);
+      border-color: var(--primary);
     }
 
     .primary-button, .secondary-button {
       width: 100%;
       border: 0;
-      border-radius: 18px;
-      font-weight: 800;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
       font-size: 1rem;
-      padding: 0.84rem 1rem;
+      padding: 0.9rem 1rem;
+      min-height: 48px;
       cursor: pointer;
     }
 
     .primary-button {
-      background: var(--navy);
+      background: var(--primary);
       color: #ffffff;
-      box-shadow: 0 14px 30px rgba(22, 37, 68, 0.18);
     }
 
     .secondary-button {
-      background: #ffffff;
-      color: var(--navy);
-      border: 1px solid #d8e1ef;
-      margin-top: 0.72rem;
+      background: var(--fill);
+      color: var(--text);
+      margin-top: 0.6rem;
     }
 
-    .primary-button:active, .secondary-button:active { transform: translateY(1px); }
+    .primary-button:active { filter: brightness(.92); }
+    .secondary-button:active { filter: brightness(.96); }
 
     .prompt-output {
       min-height: 420px;
-      font-size: 0.94rem;
+      font-size: 0.9rem;
       line-height: 1.58;
       white-space: pre-wrap;
     }
@@ -185,66 +188,99 @@
     .status {
       display: none;
       margin: 0 0 0.9rem;
-      padding: 0.78rem 0.9rem;
-      border-radius: 18px;
-      background: #edf9f5;
-      color: var(--success);
-      font-weight: 700;
-      font-size: 0.9rem;
+      padding: 0;
+      background: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.88rem;
     }
 
     .status.show { display: block; }
 
     .steps {
       margin: 0;
-      padding-left: 1.25rem;
-      color: #526073;
-      line-height: 1.72;
-      font-size: 0.93rem;
+      padding-left: 1.2rem;
+      color: var(--text-sub);
+      line-height: 1.7;
+      font-size: 0.88rem;
     }
 
     .mini-note {
-      color: #8994a5;
+      color: var(--text-weak);
       text-align: center;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       margin: 1.2rem 0 0;
     }
 
-    .back-row { margin-bottom: 0.6rem; }
+    .back-row { margin-bottom: 0.5rem; }
 
     .back-link {
       border: 0;
       background: none;
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 0.92rem;
-      padding: 0;
+      color: var(--text-sub);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.4rem 0;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
       cursor: pointer;
     }
 
-    .preset-group { margin-bottom: 1.1rem; }
+    .preset-group { margin-bottom: 0.9rem; }
 
     .preset-group-label {
-      margin: 0 0 0.55rem;
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 700;
+      margin: 0 0 0.3rem;
+      color: var(--text-weak);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
     }
 
     .preset-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.6rem;
+      grid-template-columns: 1fr;
     }
 
-    .preset-button { margin-top: 0; }
+    .preset-button, .list-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      color: var(--text);
+      border: 0;
+      border-radius: 0;
+      margin-top: 0;
+      padding: 0.95rem 0.1rem;
+      min-height: 44px;
+      font-weight: 600;
+      font-size: 0.96rem;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .preset-button::after, .list-row::after {
+      content: '›';
+      color: var(--text-weak);
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin-left: 0.5rem;
+    }
+
+    .preset-button:active, .list-row:active { background: #f8f9fa; }
+
+    .preset-grid .preset-button { border-bottom: 1px solid var(--line); }
+    .preset-grid .preset-button:last-child { border-bottom: 0; }
+
+    .list-row { border-top: 1px solid var(--line); margin-top: 0.3rem; }
 
     .safety-banner {
-      background: var(--accent);
-      color: var(--navy);
-      border-radius: 18px;
+      background: var(--danger-weak);
+      color: var(--danger-text);
+      border-radius: var(--radius-sm);
       padding: 0.78rem 0.9rem;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       line-height: 1.55;
       margin: 0 0 1rem;
     }
@@ -259,10 +295,42 @@
 
     .field-checkbox label { margin: 0; }
 
+    #resultChecklist {
+      background: var(--primary-weak);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem 0.9rem 1.6rem;
+      margin: 0 0 1rem;
+    }
+
+    #resultChecklist .steps {
+      color: var(--text-sub);
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .usage-card {
+      background: transparent;
+      border-radius: 0;
+      border-top: 1px solid var(--line);
+      padding: 0.9rem 0.2rem 0;
+    }
+
+    .usage-card .section-title h2 {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-weak);
+    }
+
+    .usage-card .section-badge { display: none; }
+
+    .usage-card .steps {
+      color: var(--text-weak);
+      font-size: 0.82rem;
+    }
+
     @media (max-width: 520px) {
       .app-shell { padding-left: 0.78rem; padding-right: 0.78rem; }
-      .mobile-card { border-radius: 24px; padding: 1rem; }
-      .brand-name { font-size: 1.42rem; }
+      .mobile-card { padding: 1rem; }
     }
   </style>
 </head>
@@ -284,7 +352,7 @@
         </div>
         <p class="hint">API 결제 없이 사용합니다. 여기서 만든 프롬프트를 ChatGPT Plus에 붙여넣으면 됩니다.</p>
         <div id="presetGroups"></div>
-        <button class="secondary-button" id="openProfile" type="button">⚙ 내 말투 설정</button>
+        <button class="list-row" id="openProfile" type="button">⚙ 내 말투 설정</button>
       </div>
     </section>
 
@@ -318,7 +386,7 @@
         <button class="secondary-button" id="goHome" type="button">처음으로</button>
       </div>
 
-      <div class="mobile-card">
+      <div class="mobile-card usage-card">
         <div class="section-title">
           <h2>사용 순서</h2>
           <span class="section-badge">추가 비용 없음</span>
