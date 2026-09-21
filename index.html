@@ -335,6 +335,7 @@
   </style>
 </head>
 <body>
+  <p id="portfolioDemoNotice" hidden style="padding:12px 20px;margin:0;background:#e8f3ff;color:#4e5968;font-size:12px;line-height:1.7">포트폴리오 데모 · 저장된 개인 설정을 읽지 않습니다. 입력·설정은 새로고침하면 초기화됩니다.</p>
   <main class="app-shell">
     <section class="hero">
       <div class="logo-row">
@@ -457,6 +458,8 @@
   </main>
 
   <script>
+    const PORTFOLIO_DEMO = new URLSearchParams(location.search).get('demo') === '1';
+    let demoProfile = null;
     // ---- 프리셋 데이터 ----------------------------------------------------
     const PRESETS = {
       coupang: {
@@ -653,6 +656,7 @@
     }
 
     function loadProfile() {
+      if (PORTFOLIO_DEMO) return demoProfile;
       try {
         const raw = localStorage.getItem('rm_profile');
         if (!raw) return null;
@@ -664,6 +668,7 @@
     }
 
     function saveProfile(profile) {
+      if (PORTFOLIO_DEMO) { demoProfile = { ...profile }; return true; }
       try {
         const payload = Object.assign({}, profile, { updatedAt: new Date().toISOString() });
         localStorage.setItem('rm_profile', JSON.stringify(payload));
@@ -999,6 +1004,10 @@
     // ---- 초기화 -----------------------------------------------------------
     renderHome();
     showScreen('home');
+    if (PORTFOLIO_DEMO) {
+      document.getElementById('portfolioDemoNotice').hidden = false;
+      openPresetForm('coupang');
+    }
   </script>
 </body>
 </html>
